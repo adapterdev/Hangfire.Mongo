@@ -17,11 +17,9 @@ namespace Hangfire.Mongo.Dto
         public string[] Queues { get; set; }
 
         [BsonElement(nameof(StartedAt))]
-        [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
         public DateTime? StartedAt { get; set; }
         
         [BsonElement(nameof(LastHeartbeat))]
-        [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
         public DateTime? LastHeartbeat { get; set; }
     }
 #pragma warning restore 1591

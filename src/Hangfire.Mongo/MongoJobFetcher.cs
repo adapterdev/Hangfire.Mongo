@@ -4,6 +4,7 @@ using Hangfire.Annotations;
 using Hangfire.Logging;
 using Hangfire.Mongo.Database;
 using Hangfire.Mongo.Dto;
+using Hangfire.Mongo.Extensions;
 using Hangfire.Storage;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -134,7 +135,7 @@ namespace Hangfire.Mongo
                 fetchedAtQuery = new BsonDocument("$or", new BsonArray
                 {
                     new BsonDocument(nameof(JobQueueDto.FetchedAt), BsonNull.Value),
-                    new BsonDocument(nameof(JobQueueDto.FetchedAt), new BsonDocument("$lt", date))
+                    new BsonDocument(nameof(JobQueueDto.FetchedAt), new BsonDocument("$lt", date.DateTimeToInt()))
                 });
             }
             var filter = new BsonDocument("$and", new BsonArray
@@ -143,7 +144,7 @@ namespace Hangfire.Mongo
                 fetchedAtQuery
             });
             
-            var update = new BsonDocument("$set", new BsonDocument(nameof(JobQueueDto.FetchedAt), DateTime.UtcNow));
+            var update = new BsonDocument("$set", new BsonDocument(nameof(JobQueueDto.FetchedAt), DateTime.UtcNow.DateTimeToInt()));
             
             var fetchedJob = _dbContext
                 .JobGraph

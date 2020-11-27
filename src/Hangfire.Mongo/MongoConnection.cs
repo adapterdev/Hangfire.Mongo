@@ -188,15 +188,16 @@ namespace Hangfire.Mongo
                 throw new ArgumentNullException(nameof(context));
             }
 
-            var set = new BsonDocument("$set", new BsonDocument
+            var server = new ServerDto
             {
-                [nameof(ServerDto.WorkerCount)] = context.WorkerCount,
-                [nameof(ServerDto.Queues)] = new BsonArray(context.Queues),
-                [nameof(ServerDto.StartedAt)] = DateTime.UtcNow,
-                [nameof(ServerDto.LastHeartbeat)] = DateTime.UtcNow
-            });
+                Id = serverId,
+                WorkerCount = context.WorkerCount,
+                Queues = context.Queues,
+                StartedAt = DateTime.UtcNow,
+                LastHeartbeat = DateTime.UtcNow
+            };           
 
-            _dbContext.Server.UpdateOne(new BsonDocument("_id", serverId), set, new UpdateOptions {IsUpsert = true});
+            _dbContext.Server.ReplaceOne(Builders<ServerDto>.Filter.Eq(_ => _.Id, serverId), server, new UpdateOptions {IsUpsert = true});
         }
 
         public override void RemoveServer(string serverId)

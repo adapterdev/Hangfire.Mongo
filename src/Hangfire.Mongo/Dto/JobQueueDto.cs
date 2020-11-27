@@ -15,7 +15,6 @@ namespace Hangfire.Mongo.Dto
         public string Queue { get; set; }
 
         [BsonElement(nameof(FetchedAt))]
-        [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
         public DateTime? FetchedAt { get; set; }
     }
 #pragma warning restore 1591

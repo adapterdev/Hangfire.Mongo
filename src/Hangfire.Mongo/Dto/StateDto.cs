@@ -14,7 +14,6 @@ namespace Hangfire.Mongo.Dto
         public string Reason { get; set; }
 
         [BsonElement(nameof(CreatedAt))]
-        [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
         public DateTime CreatedAt { get; set; }
 
         [BsonElement(nameof(Data))]

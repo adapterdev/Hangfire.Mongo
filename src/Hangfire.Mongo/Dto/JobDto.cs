@@ -24,7 +24,6 @@ namespace Hangfire.Mongo.Dto
         public StateDto[] StateHistory { get; set; } = new StateDto[0];
 
         [BsonElement(nameof(CreatedAt))]
-        [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
         public DateTime CreatedAt { get; set; }
         
         

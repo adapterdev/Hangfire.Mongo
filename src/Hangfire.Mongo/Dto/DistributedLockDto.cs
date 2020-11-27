@@ -28,7 +28,6 @@ namespace Hangfire.Mongo.Dto
         /// cleaned up by the owner (e.g. process was shut down).
         /// </summary>
         [BsonElement(nameof(ExpireAt))]
-        [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
         public DateTime ExpireAt { get; set; }
     }
 }

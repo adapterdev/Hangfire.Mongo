@@ -6,6 +6,7 @@ using Hangfire.Common;
 using Hangfire.Logging;
 using Hangfire.Mongo.Database;
 using Hangfire.Mongo.Dto;
+using Hangfire.Mongo.Extensions;
 using Hangfire.States;
 using Hangfire.Storage;
 using MongoDB.Bson;
@@ -41,7 +42,7 @@ namespace Hangfire.Mongo
         {
             var filter = CreateJobIdFilter(jobId);
             var update = new BsonDocument("$set",
-                new BsonDocument(nameof(KeyJobDto.ExpireAt), DateTime.UtcNow.Add(expireIn)));
+                new BsonDocument(nameof(KeyJobDto.ExpireAt), DateTime.UtcNow.Add(expireIn).DateTimeToInt()));
 
             var writeModel = new UpdateOneModel<BsonDocument>(filter, update);
             _writeModels.Add(writeModel);
@@ -210,7 +211,7 @@ namespace Hangfire.Mongo
             BsonValue bsonDate = BsonNull.Value;
             if (expireIn != null)
             {
-                bsonDate = BsonValue.Create(DateTime.UtcNow.Add(expireIn.Value));
+                bsonDate = BsonValue.Create(DateTime.UtcNow.Add(expireIn.Value).DateTimeToInt());
             }
             
             var update = new BsonDocument
@@ -503,7 +504,7 @@ namespace Hangfire.Mongo
             var filter = CreateSetFilter(key);
 
             var update = new BsonDocument("$set",
-                new BsonDocument(nameof(SetDto.ExpireAt), DateTime.UtcNow.Add(expireIn)));
+                new BsonDocument(nameof(SetDto.ExpireAt), DateTime.UtcNow.Add(expireIn).DateTimeToInt()));
 
             var writeModel = new UpdateManyModel<BsonDocument>(filter, update);
             _writeModels.Add(writeModel);
@@ -523,7 +524,7 @@ namespace Hangfire.Mongo
             });
 
             var update = new BsonDocument("$set",
-                new BsonDocument(nameof(ListDto.ExpireAt), DateTime.UtcNow.Add(expireIn)));
+                new BsonDocument(nameof(ListDto.ExpireAt), DateTime.UtcNow.Add(expireIn).DateTimeToInt()));
             var writeModel = new UpdateManyModel<BsonDocument>(filter, update);
             _writeModels.Add(writeModel);
         }
@@ -542,7 +543,7 @@ namespace Hangfire.Mongo
             });
 
             var update = new BsonDocument("$set",
-                new BsonDocument(nameof(HashDto.ExpireAt), DateTime.UtcNow.Add(expireIn)));
+                new BsonDocument(nameof(HashDto.ExpireAt), DateTime.UtcNow.Add(expireIn).DateTimeToInt()));
             var writeModel = new UpdateOneModel<BsonDocument>(filter, update);
             _writeModels.Add(writeModel);
         }
